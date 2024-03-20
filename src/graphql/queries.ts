@@ -133,6 +133,7 @@ export const COMPANIES_LIST_QUERY = gql`
       nodes {
         id
         name
+        country
         avatarUrl
         # Get the sum of all deals in this company
         dealsAggregate {
@@ -186,6 +187,8 @@ export const COMPANY_CONTACTS_TABLE_QUERY = gql`
     }
   }
 `;
+
+
 
 // Query to get task stages list
 export const TASK_STAGES_QUERY = gql`
@@ -248,4 +251,58 @@ export const TASK_STAGES_SELECT_QUERY = gql`
       }
     }
   }
+`;
+
+// Query to get contacts list
+export const CONTACTS_LIST_QUERY = gql`
+    query ContactsList(
+        $filter: ContactFilter!
+        $sorting: [ContactSort!]
+        $paging: OffsetPaging!
+    ) {
+        contacts(filter: $filter, sorting: $sorting, paging: $paging) {
+            nodes {
+                id
+                name
+                email
+                company {
+                    id
+                    name
+                    avatarUrl
+                }
+                jobTitle
+                phone
+                status
+                avatarUrl
+            }
+            totalCount
+        }
+    }
+`;
+
+// Query to get contact details
+export const CONTACT_SHOW_QUERY = gql`
+    query ContactShow($id: ID!) {
+        contact(id: $id) {
+            id
+            name
+            email
+            company {
+                id
+                name
+                avatarUrl
+            }
+            status
+            jobTitle
+            phone
+            timezone
+            avatarUrl
+            salesOwner {
+                id
+                name
+                avatarUrl
+            }
+            createdAt
+        }
+    }
 `;

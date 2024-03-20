@@ -14,8 +14,8 @@ const CurrentUser = () => {
 
     const content = (
         <div style={{
-            display:'flex',
-            flexDirection:'column',
+            display: 'flex',
+            flexDirection: 'column',
         }}>
             <Text
                 strong
@@ -45,32 +45,32 @@ const CurrentUser = () => {
         </div>
     )
 
-  return (
-    <>
-      <Popover
-      placement='bottomRight'
-      trigger="click"
-      overlayInnerStyle={{ padding: 0 }}
-      overlayStyle={{ zIndex: 999}}
-      content={content}
-      >
-        <CustomAvatar 
-            name={user?.name}
-            /**src={user?.avatarUrl}*/
-            size="default"
-            style={{ cursor: 'pointer' }}
-        
-        />
-      </Popover>
-      {user && (
-        <AccountSettings 
-            opened={isOpen}
-            setOpened={setIsOpen}
-            userId={user.id}
-        />
-      )}
-    </>
-  )
+    return (
+        <>
+            <Popover
+                placement='bottomRight'
+                trigger="click"
+                overlayInnerStyle={{ padding: 0 }}
+                overlayStyle={{ zIndex: 999 }}
+                content={content}
+            >
+                <CustomAvatar
+                    name={user?.name}
+                    /**src={user?.avatarUrl}*/
+                    size="default"
+                    style={{ cursor: 'pointer' }}
+
+                />
+            </Popover>
+            {user && (
+                <AccountSettings
+                    opened={isOpen}
+                    setOpened={setIsOpen}
+                    userId={user.id}
+                />
+            )}
+        </>
+    )
 }
 
 export default CurrentUser

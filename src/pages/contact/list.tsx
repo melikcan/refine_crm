@@ -1,24 +1,22 @@
-import { AvatarGroup } from '@/components/avatar-group';
 import CustomAvatar from '@/components/custom-avatar';
 import { Text } from '@/components/text';
-import { COMPANIES_LIST_QUERY } from '@/graphql/queries';
-import { Company } from '@/graphql/schema.types';
-import { CompaniesListQuery } from '@/graphql/types';
-import { currencyNumber } from '@/utilities';
+import { CONTACTS_LIST_QUERY  } from '@/graphql/queries';
+import { Contact } from '@/graphql/schema.types';
+import { ContactsListQuery } from '@/graphql/types';
 import { SearchOutlined } from '@ant-design/icons';
 import { CreateButton, DeleteButton, EditButton, FilterDropdown, List, useTable } from '@refinedev/antd'
 import { HttpError, getDefaultFilter, useGo } from '@refinedev/core'
 import { GetFieldsFromList } from '@refinedev/nestjs-query';
 import { Input, Space, Table } from 'antd';
 
-export const CompanyList = ({ children }: React.PropsWithChildren) => {
+export const ContactList = ({ children }: React.PropsWithChildren) => {
   const go = useGo();
   const { tableProps, filters } = useTable<
-    GetFieldsFromList<CompaniesListQuery>,
+    GetFieldsFromList<ContactsListQuery>,
     HttpError,
-    GetFieldsFromList<CompaniesListQuery>
+    GetFieldsFromList<ContactsListQuery>
   >({
-    resource: 'companies',
+    resource: 'contacts',
     onSearch: (values) => {
       return [
         {
@@ -49,7 +47,7 @@ export const CompanyList = ({ children }: React.PropsWithChildren) => {
       ]
     },
     meta: {
-      gqlQuery: COMPANIES_LIST_QUERY
+      gqlQuery: CONTACTS_LIST_QUERY
     }
   })
 
@@ -62,7 +60,7 @@ export const CompanyList = ({ children }: React.PropsWithChildren) => {
             onClick={() => {
               go({
                 to: {
-                  resource: 'companies',
+                  resource: 'contacts',
                   action: 'create'
                 },
                 options: {
@@ -78,44 +76,53 @@ export const CompanyList = ({ children }: React.PropsWithChildren) => {
           {...tableProps}
           pagination={{ ...tableProps.pagination }}
         >
-          <Table.Column<Company>
+          <Table.Column<Contact>
             dataIndex="name"
-            title="Company Title"
+            title="Contact Name"
             defaultFilteredValue={getDefaultFilter('id', filters)}
             filterIcon={<SearchOutlined />}
             filterDropdown={(props) => (
               <FilterDropdown {...props}>
-                <Input placeholder="Search Company" />
+                <Input placeholder="Search Contact" />
               </FilterDropdown>
             )}
-            render={(value, company) => (
+            render={(value, record) => (
               <Space>
-                <CustomAvatar shape="square" name={company.name} src={company.avatarUrl} />
+                <CustomAvatar shape="square" name={record.name} src={record.avatarUrl} />
                 <Text style={{ whiteSpace: 'nowrap' }}>
-                  {company.name}
+                  {record.name}
                 </Text>
               </Space>
             )}
           />
-          {/* <Table.Column<Company>
-            dataIndex="totalRevenue"
-            title="Open deals amount"
-            render={(value, company) => (
-              <Text>
-                {currencyNumber(company?.dealsAggregate?.[0].sum?.value || 0)}
-              </Text>
-            )}
-          /> */}
-          <Table.Column<Company>
-            dataIndex="country"
-            title="Country"
-            render={(value, company) => (
-              <Text>
-                {company.country}
-              </Text>
+          <Table.Column<Contact>
+            dataIndex="company"
+            title="Company"
+            render={(value, record) => (
+                <Text style={{ whiteSpace: 'nowrap' }}>
+                  {record.company.name}
+                </Text>
             )}
           />
-          <Table.Column<Company>
+          <Table.Column<Contact>
+            dataIndex="jobTitle"
+            title="Title"
+            render={(value, record) => (
+                <Text style={{ whiteSpace: 'nowrap' }}>
+                  {record.jobTitle}
+                </Text>
+            )}
+          />
+          <Table.Column<Contact>
+            dataIndex="phone"
+            title="Phone"
+            render={(value, record) => (
+                <Text style={{ whiteSpace: 'nowrap' }}>
+                  {record.phone}
+                </Text>
+            )}
+          />
+          <Table.Column<Contact>
             dataIndex="id"
             title="Actions"
             fixed="right"

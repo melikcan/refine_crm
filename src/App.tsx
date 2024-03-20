@@ -1,4 +1,4 @@
-import { Authenticated, GitHubBanner, Refine, WelcomePage } from "@refinedev/core";
+import { Authenticated, Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
@@ -6,7 +6,7 @@ import { useNotificationProvider } from "@refinedev/antd";
 import "@refinedev/antd/dist/reset.css";
 
 import { authProvider, dataProvider, liveProvider } from "./providers";
-import { Home, ForgotPassword, Login, Register, CompanyList } from "./pages";
+import { Home, ForgotPassword, Login, Register, CompanyList, ContactList } from "./pages";
 
 import routerBindings, {
   CatchAllNavigate,
@@ -17,16 +17,17 @@ import { App as AntdApp } from "antd";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import Layout from "./components/layout";
 import { resources } from "./config/resources";
-import Create from "./pages/company/create";
-import EditPage from "./pages/company/edit";
+import CompanyCreatePage from "./pages/company/create";
+import CompanyEditPage from "./pages/company/edit";
 import List from "./pages/tasks/list";
 import TasksCreatePage from "./pages/tasks/create";
 import TasksEditPage from "./pages/tasks/edit";
+import { ContactEditPage } from "./pages/contact/edit";
+import { ContactCreatePage } from "./pages/contact/create";
 
 function App() {
   return (
     <BrowserRouter>
-      {/* <GitHubBanner /> */}
       <RefineKbarProvider>
         <AntdApp>
           <DevtoolsProvider>
@@ -63,8 +64,13 @@ function App() {
                   <Route index element={<Home />} />
                   <Route path="/companies" >
                     <Route index element={<CompanyList />} />
-                    <Route path="new" element={<Create />} />
-                    <Route path="edit/:id" element={<EditPage />} />
+                    <Route path="new" element={<CompanyCreatePage />} />
+                    <Route path="edit/:id" element={<CompanyEditPage />} />
+                  </Route>
+                  <Route path="/contacts" >
+                    <Route index element={<ContactList />} />
+                    <Route path="new" element={<ContactCreatePage />} />
+                    <Route path="edit/:id" element={<ContactEditPage />} />
                   </Route>
                   <Route path="/tasks" element={
                     <List>

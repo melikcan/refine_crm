@@ -165,12 +165,24 @@ export type CompaniesListQueryVariables = Types.Exact<{
 export type CompaniesListQuery = {
   companies: Pick<Types.CompanyConnection, "totalCount"> & {
     nodes: Array<
-      Pick<Types.Company, "id" | "name" | "avatarUrl"> & {
+      Pick<Types.Company, "id" | "name" | "country" | "avatarUrl"> & {
         dealsAggregate: Array<{
           sum?: Types.Maybe<Pick<Types.CompanyDealsSumAggregate, "value">>;
         }>;
       }
     >;
+  };
+};
+
+export type CompaniesSelectQueryVariables = Types.Exact<{
+  filter: Types.CompanyFilter;
+  sorting?: Types.InputMaybe<Array<Types.CompanySort> | Types.CompanySort>;
+  paging: Types.OffsetPaging;
+}>;
+
+export type CompaniesSelectQuery = {
+  companies: {
+    nodes: Array<Pick<Types.Company, "id" | "name" | "avatarUrl">>;
   };
 };
 
@@ -248,5 +260,44 @@ export type TaskStagesSelectQueryVariables = Types.Exact<{
 export type TaskStagesSelectQuery = {
   taskStages: Pick<Types.TaskStageConnection, "totalCount"> & {
     nodes: Array<Pick<Types.TaskStage, "id" | "title">>;
+  };
+};
+
+export type ContactsListQueryVariables = Types.Exact<{
+  filter: Types.ContactFilter;
+  sorting?: Types.InputMaybe<Array<Types.ContactSort> | Types.ContactSort>;
+  paging: Types.OffsetPaging;
+}>;
+
+export type ContactsListQuery = {
+  contacts: Pick<Types.ContactConnection, "totalCount"> & {
+    nodes: Array<
+      Pick<
+        Types.Contact,
+        "id" | "name" | "email" | "jobTitle" | "phone" | "avatarUrl"
+      > & { company: Pick<Types.Company, "id" | "name" | "avatarUrl"> }
+    >;
+  };
+};
+
+export type ContactShowQueryVariables = Types.Exact<{
+  id: Types.Scalars["ID"]["input"];
+}>;
+
+export type ContactShowQuery = {
+  contact: Pick<
+    Types.Contact,
+    | "id"
+    | "name"
+    | "email"
+    | "status"
+    | "jobTitle"
+    | "phone"
+    | "timezone"
+    | "avatarUrl"
+    | "createdAt"
+  > & {
+    company: Pick<Types.Company, "id" | "name" | "avatarUrl">;
+    salesOwner: Pick<Types.User, "id" | "name" | "avatarUrl">;
   };
 };

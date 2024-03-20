@@ -11,7 +11,7 @@ import { Col, Form, Input, InputNumber, Row, Select } from 'antd'
 import React from 'react'
 import { CompanyContactsTable } from './contacts-table'
 
-const EditPage = () => {
+const CompanyEditPage = () => {
     const { saveButtonProps, formProps, formLoading, queryResult } = useForm({
         redirect: false,
         meta: {
@@ -111,4 +111,4 @@ const EditPage = () => {
     )
 }
 
-export default EditPage
+export default CompanyEditPage
